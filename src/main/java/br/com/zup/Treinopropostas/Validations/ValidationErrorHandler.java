@@ -1,8 +1,10 @@
 package br.com.zup.Treinopropostas.Validations;
 
+import br.com.zup.Treinopropostas.Validations.Utils.ApiErrorException;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,9 +23,9 @@ public class ValidationErrorHandler {
         this.messageSource = messageSource;
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+        @ResponseStatus(HttpStatus.BAD_REQUEST)
         @ExceptionHandler(MethodArgumentNotValidException.class)
-        public List<FieldErrorDTO> handlerValidation(MethodArgumentNotValidException e) {
+        public List<FieldErrorDTO> handlerValidationMethodArgument(MethodArgumentNotValidException e) {
             List<FieldErrorDTO> errorList = new ArrayList<FieldErrorDTO>();
 
              e.getBindingResult().getFieldErrors().forEach(erro -> {
