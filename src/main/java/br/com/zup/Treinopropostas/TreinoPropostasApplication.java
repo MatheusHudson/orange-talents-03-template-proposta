@@ -14,9 +14,4 @@ public class TreinoPropostasApplication {
 		SpringApplication.run(TreinoPropostasApplication.class, args);
 	}
 
-
-	@Bean
-	Logger.Level feignLoggerLevel() { return Logger.Level.FULL;
-	}
-
 }
