@@ -1,21 +1,15 @@
 package br.com.zup.Treinopropostas.Proposta;
 
 import br.com.zup.Treinopropostas.Proposta.Enum.StatusCliente;
-import br.com.zup.Treinopropostas.Utils.Manager;
-import br.com.zup.Treinopropostas.Validations.CPForCNPJ;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
-public class PropostaRequest {
+public class PropostaResponse {
 
-    @CPForCNPJ
-    @NotBlank
     private String documento;
-
     @Email
     @NotBlank
     private String email;
@@ -23,19 +17,20 @@ public class PropostaRequest {
     private String nome;
     @NotBlank
     private String endereco;
-
-    private StatusCliente status;
-
-    @Positive
     @NotNull
     private BigDecimal salario;
 
-    public PropostaRequest(String documento, String email, String nome, String endereco, BigDecimal salario) {
+    @NotBlank
+    @NotNull
+    private StatusCliente status;
+
+    public PropostaResponse(String documento, String email, String nome, String endereco, BigDecimal salario, StatusCliente status) {
         this.documento = documento;
         this.email = email;
         this.nome = nome;
         this.endereco = endereco;
         this.salario = salario;
+        this.status = status;
     }
 
     public String getDocumento() {
@@ -58,8 +53,7 @@ public class PropostaRequest {
         return salario;
     }
 
-    public Proposta toModel() {
-        return new Proposta(documento, email, nome, endereco, salario);
+    public StatusCliente getStatus() {
+        return status;
     }
-
 }

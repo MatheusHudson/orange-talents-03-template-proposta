@@ -1,6 +1,4 @@
-package br.com.zup.Treinopropostas.Validations.Utils;
-
-import org.springframework.http.HttpStatus;
+package br.com.zup.Treinopropostas.Utils;
 
 public class ApiErrorException extends RuntimeException {
 

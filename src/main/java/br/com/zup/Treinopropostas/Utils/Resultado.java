@@ -1,4 +1,4 @@
-package br.com.zup.Treinopropostas.Validations.Utils;
+package br.com.zup.Treinopropostas.Utils;
 
 import org.springframework.util.Assert;
 

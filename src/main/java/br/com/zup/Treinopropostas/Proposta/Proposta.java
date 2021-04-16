@@ -1,9 +1,12 @@
 package br.com.zup.Treinopropostas.Proposta;
 
+import br.com.zup.Treinopropostas.Proposta.Enum.StatusCliente;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Locale;
 
 @Entity
@@ -14,7 +17,7 @@ public class Proposta {
     private Long id;
 
     @Column(unique = true,nullable = false)
-    private String cpfOrCnpj;
+    private String documento;
     @Email
     @NotBlank
     @Column(nullable = false)
@@ -27,10 +30,13 @@ public class Proposta {
     private String endereco;
     @NotNull
     @Column(nullable = false)
-    private Double salario;
+    private BigDecimal salario;
 
-    public Proposta(String cpfOrCnpj, String email, String nome, String endereco, Double salario) {
-        this.cpfOrCnpj = cpfOrCnpj;
+    @Enumerated(EnumType.STRING)
+    private StatusCliente status;
+
+    public Proposta(String documento, String email, String nome, String endereco, BigDecimal salario) {
+        this.documento = documento;
         this.email = email.toLowerCase(Locale.ROOT);
         this.nome = nome;
         this.endereco = endereco;
@@ -39,5 +45,25 @@ public class Proposta {
 
     public Long getId() {
         return id;
+    }
+
+    public String getDocumento() {
+        return documento;
+    }
+
+    public StatusCliente getStatus() {
+        return status;
+    }
+
+    public Solicitacao enviarInformacoes() {
+        return new Solicitacao(documento, nome, id.toString());
+    }
+
+    public void atualizaEntidade(Solicitacao solicitacao) {
+        status = solicitacao.getResultadoSolicitacao();
+    }
+
+    public PropostaResponse toResponse() {
+        return new PropostaResponse(documento, email, nome, endereco, salario, status);
     }
 }
