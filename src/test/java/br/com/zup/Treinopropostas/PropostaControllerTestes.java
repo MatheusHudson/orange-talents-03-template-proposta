@@ -1,8 +1,11 @@
 package br.com.zup.Treinopropostas;
 
+import br.com.zup.Treinopropostas.Proposta.Proposta;
+import br.com.zup.Treinopropostas.Proposta.PropostaController;
 import br.com.zup.Treinopropostas.Proposta.PropostaRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -64,6 +67,7 @@ public class PropostaControllerTestes {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated()).andReturn();
     }
+
 
     private static Stream<Arguments> providePropostaRequest() {
         PropostaRequest propostaRequest = new PropostaRequest("686.465.700-02", "matheus@teste.com", "matheus", "Rua A",  new BigDecimal(7015.44));

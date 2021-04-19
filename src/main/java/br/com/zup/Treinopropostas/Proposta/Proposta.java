@@ -35,12 +35,19 @@ public class Proposta {
     @Enumerated(EnumType.STRING)
     private StatusCliente status;
 
-    public Proposta(String documento, String email, String nome, String endereco, BigDecimal salario) {
+    private String cartaoId;
+
+    @Deprecated
+    public  Proposta() {}
+
+
+    public Proposta(String documento, String email, String nome, String endereco, BigDecimal salario, String cartaoId) {
         this.documento = documento;
         this.email = email.toLowerCase(Locale.ROOT);
         this.nome = nome;
         this.endereco = endereco;
         this.salario = salario;
+        this.cartaoId = cartaoId;
     }
 
     public Long getId() {
@@ -55,12 +62,20 @@ public class Proposta {
         return status;
     }
 
+    public String getCartaoId() {
+        return cartaoId;
+    }
+
     public Solicitacao enviarInformacoes() {
         return new Solicitacao(documento, nome, id.toString());
     }
 
     public void atualizaEntidade(Solicitacao solicitacao) {
         status = solicitacao.getResultadoSolicitacao();
+    }
+
+    public void atualizaEntidade(CartaoIdResponse cartaoId) {
+        this.cartaoId = cartaoId.getId();
     }
 
     public PropostaResponse toResponse() {

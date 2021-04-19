@@ -1,7 +1,6 @@
 package br.com.zup.Treinopropostas.Proposta;
 
 import br.com.zup.Treinopropostas.Proposta.Enum.StatusCliente;
-import br.com.zup.Treinopropostas.Utils.Manager;
 import br.com.zup.Treinopropostas.Validations.CPForCNPJ;
 
 import javax.validation.constraints.Email;
@@ -59,7 +58,7 @@ public class PropostaRequest {
     }
 
     public Proposta toModel() {
-        return new Proposta(documento, email, nome, endereco, salario);
+        return new Proposta(documento, email, nome, endereco, salario, "naoEmitido");
     }
 
 }
