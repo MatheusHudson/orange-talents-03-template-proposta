@@ -1,5 +1,38 @@
-version: '3'
+version: '3.9'
+networks:
+  test-network:
+    driver: bridge
+
 services:
+  spring-proposta:
+    container_name: propostas
+    environment:
+      SPRING_BD_HOST: mysql
+      SPRING_BANCO_NOME: propostas
+      SPRING_USER: root
+      SPRING_PASSWORD: root
+      CARTAO_RESOURCE_URL: cartao_resource
+      SOLICITAO_ANALISE: soliciatao_analise
+      SPRING_PROFILE: test
+    build:
+      dockerfile: Dockerfile
+      context: .
+    ports:
+      - "8080:8080"
+    networks:
+      test-network:
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+    - "3306:3306"
+    networks:
+      test-network:
 
   zookeeper:
     image: "confluentinc/cp-zookeeper:5.2.1"
@@ -64,6 +97,7 @@ services:
 
   analise:
     image: 'zupacademy/analise-financeira'
+    container_name: soliciatao_analise
     ports:
       - 9999:9999
     environment:
@@ -74,6 +108,7 @@ services:
 
   contas:
     image: 'zupacademy/contas'
+    container_name: cartao_resource
     ports:
       - 8888:8888
     environment:
