@@ -24,13 +24,16 @@ public class PropostaResponse {
     @NotNull
     private StatusCliente status;
 
-    public PropostaResponse(String documento, String email, String nome, String endereco, BigDecimal salario, StatusCliente status) {
+    private String cartaoId;
+
+    public PropostaResponse(String documento, String email, String nome, String endereco, BigDecimal salario, StatusCliente status, String cartaoId) {
         this.documento = documento;
         this.email = email;
         this.nome = nome;
         this.endereco = endereco;
         this.salario = salario;
         this.status = status;
+        this.cartaoId = cartaoId;
     }
 
     public String getDocumento() {

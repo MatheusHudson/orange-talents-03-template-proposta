@@ -1,6 +1,5 @@
 package br.com.zup.Treinopropostas.Validations;
 
-import feign.FeignException;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -33,12 +33,14 @@ public class ValidationErrorHandler {
              });
              return errorList;
         }
-        @ExceptionHandler(FeignException.FeignClientException.class)
-        public ErroPadronizado handlerValidationFeignClient(FeignException.FeignClientException e) {
-            Collection<String> mensagens = new ArrayList<>();
-            mensagens.add(e.getMessage());
-            ErroPadronizado erroPadronizado = new ErroPadronizado(mensagens);
-            return erroPadronizado;
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ErroPadronizado handlerValidationConstraintViolationException(ConstraintViolationException e) {
+        Collection<String> mensagens = new ArrayList<>();
+        mensagens.add(e.getMessage().substring(25));
+        ErroPadronizado erroPadronizado = new ErroPadronizado(mensagens);
+        return erroPadronizado;
     }
 
 

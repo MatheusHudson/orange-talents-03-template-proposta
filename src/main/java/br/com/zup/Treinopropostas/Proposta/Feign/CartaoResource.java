@@ -1,6 +1,7 @@
-package br.com.zup.Treinopropostas.Proposta;
+package br.com.zup.Treinopropostas.Proposta.Feign;
 
 
+import br.com.zup.Treinopropostas.Proposta.CartaoIdResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

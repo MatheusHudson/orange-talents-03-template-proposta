@@ -42,7 +42,7 @@ public class Proposta {
 
 
     public Proposta(String documento, String email, String nome, String endereco, BigDecimal salario, String cartaoId) {
-        this.documento = documento;
+        this.documento = documento.replaceAll("[^0-9]", "");
         this.email = email.toLowerCase(Locale.ROOT);
         this.nome = nome;
         this.endereco = endereco;
@@ -79,6 +79,6 @@ public class Proposta {
     }
 
     public PropostaResponse toResponse() {
-        return new PropostaResponse(documento, email, nome, endereco, salario, status);
+        return new PropostaResponse(documento, email, nome, endereco, salario, status, cartaoId);
     }
 }
