@@ -1,5 +1,6 @@
 package br.com.zup.Treinopropostas.Proposta;
 
+import br.com.zup.Treinopropostas.Cartao.Cartao;
 import br.com.zup.Treinopropostas.Proposta.Feign.CartaoResource;
 import feign.FeignException;
 import org.slf4j.Logger;
@@ -30,7 +31,8 @@ public class AssociarCartao {
             Proposta prosposta = possivelProposta.get();
             try {
                 CartaoIdResponse cartaoId = cartaoResource.getCartao(Map.of("idProposta", prosposta.getId()));
-                prosposta.atualizaEntidade(cartaoId);
+                Cartao cartao = cartaoId.toModel();
+                prosposta.atualizaEntidade(cartao);
                 propostaRepository.save(prosposta);
                 logger.info("A proposta com id={} foi associado com o cartão de id={}", prosposta.getId(), cartaoId.getId());
             } catch (FeignException.FeignClientException e) {

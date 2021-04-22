@@ -1,5 +1,6 @@
 package br.com.zup.Treinopropostas.Proposta;
 
+import br.com.zup.Treinopropostas.Cartao.Cartao;
 import br.com.zup.Treinopropostas.Proposta.Enum.StatusCliente;
 
 import javax.validation.constraints.Email;
@@ -24,16 +25,16 @@ public class PropostaResponse {
     @NotNull
     private StatusCliente status;
 
-    private String cartaoId;
+    private Cartao cartao;
 
-    public PropostaResponse(String documento, String email, String nome, String endereco, BigDecimal salario, StatusCliente status, String cartaoId) {
+    public PropostaResponse(String documento, String email, String nome, String endereco, BigDecimal salario, StatusCliente status, Cartao cartao) {
         this.documento = documento;
         this.email = email;
         this.nome = nome;
         this.endereco = endereco;
         this.salario = salario;
         this.status = status;
-        this.cartaoId = cartaoId;
+        this.cartao = cartao;
     }
 
     public String getDocumento() {
@@ -58,5 +59,10 @@ public class PropostaResponse {
 
     public StatusCliente getStatus() {
         return status;
+    }
+
+    public String getCartao() {
+
+        return cartao != null  ? cartao.getId() : new Cartao("naoEmitido").getId();
     }
 }

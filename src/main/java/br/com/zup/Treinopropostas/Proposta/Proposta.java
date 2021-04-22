@@ -1,5 +1,6 @@
 package br.com.zup.Treinopropostas.Proposta;
 
+import br.com.zup.Treinopropostas.Cartao.Cartao;
 import br.com.zup.Treinopropostas.Proposta.Enum.StatusCliente;
 
 import javax.persistence.*;
@@ -35,19 +36,19 @@ public class Proposta {
     @Enumerated(EnumType.STRING)
     private StatusCliente status;
 
-    private String cartaoId;
+    @OneToOne(cascade = CascadeType.MERGE)
+    private Cartao cartao;
 
     @Deprecated
     public  Proposta() {}
 
 
-    public Proposta(String documento, String email, String nome, String endereco, BigDecimal salario, String cartaoId) {
+    public Proposta(String documento, String email, String nome, String endereco, BigDecimal salario) {
         this.documento = documento.replaceAll("[^0-9]", "");
         this.email = email.toLowerCase(Locale.ROOT);
         this.nome = nome;
         this.endereco = endereco;
         this.salario = salario;
-        this.cartaoId = cartaoId;
     }
 
     public Long getId() {
@@ -62,8 +63,8 @@ public class Proposta {
         return status;
     }
 
-    public String getCartaoId() {
-        return cartaoId;
+    public Cartao getCartao() {
+        return cartao;
     }
 
     public Solicitacao enviarInformacoes() {
@@ -74,11 +75,11 @@ public class Proposta {
         status = solicitacao.getResultadoSolicitacao();
     }
 
-    public void atualizaEntidade(CartaoIdResponse cartaoId) {
-        this.cartaoId = cartaoId.getId();
+    public void atualizaEntidade(Cartao cartao) {
+        this.cartao = cartao;
     }
 
     public PropostaResponse toResponse() {
-        return new PropostaResponse(documento, email, nome, endereco, salario, status, cartaoId);
+        return new PropostaResponse(documento, email, nome, endereco, salario, status, cartao);
     }
 }

@@ -32,10 +32,13 @@ public class AssociarCartaoTeste {
     @DisplayName("deveriaRetornarTrue")
     @Transactional
     public void test1()  {
-        Proposta proposta = new Proposta("686.465.700-02", "matheus@teste.com", "matheus", "Rua A", new BigDecimal(7015.44), "naoEmitido");
+        Proposta proposta = new Proposta("686.465.700-02", "matheus@teste.com", "matheus", "Rua A", new BigDecimal(7015.44));
         proposta.atualizaEntidade(new Solicitacao(StatusCliente.SEM_RESTRICAO));
         propostaRepository.save(proposta);
         Optional<Proposta> propostaSemCartaoESemRestricao = propostaRepository.getPropostaSemCartaoESemRestricao();
+        AssociarCartao associarCartao = new AssociarCartao(propostaRepository, cartaoResource);
+        associarCartao.associarCartao();
         Assertions.assertTrue(propostaSemCartaoESemRestricao.isPresent());
+        Assertions.assertTrue(proposta.getCartao() != null);
     }
 }

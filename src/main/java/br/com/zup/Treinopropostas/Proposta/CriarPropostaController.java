@@ -2,6 +2,7 @@ package br.com.zup.Treinopropostas.Proposta;
 
 import br.com.zup.Treinopropostas.Proposta.Enum.StatusCliente;
 import br.com.zup.Treinopropostas.Proposta.Feign.SolicitacaoAnaliseResource;
+import br.com.zup.Treinopropostas.Utils.ApiErrorException;
 import br.com.zup.Treinopropostas.Validations.ErroPadronizado;
 import br.com.zup.Treinopropostas.Utils.Resultado;
 import feign.FeignException;
@@ -18,6 +19,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @RestController
 public class CriarPropostaController {
@@ -59,9 +62,14 @@ public class CriarPropostaController {
             logger.info("Proposta com id={} com documento={} status ={} ", proposta.getId(), proposta.getDocumento().substring(0,3) + "********", proposta.getStatus());
             return  ResponseEntity.created(uri).body(Resultado.sucesso(response).getSucesso());
         } else {
+            Collection<String> mensagens = new ArrayList<>();
+            mensagens.add(Resultado.erro(new ApiErrorException("Documento já existente")).getExcecao().getMessage());
+
+            ErroPadronizado erroPadronizado = new ErroPadronizado(mensagens);
+            logger.info("Erro 422 ao realizar validação");
 
             return  ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
-                    .body(ErroPadronizado.repostaErro("Erro 422 ao realizar validação", "Documento já existente",logger));
+                    .body(erroPadronizado);
         }
 
     }

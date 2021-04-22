@@ -1,5 +1,7 @@
 package br.com.zup.Treinopropostas.Proposta;
 
+import br.com.zup.Treinopropostas.Cartao.Cartao;
+
 public class CartaoIdResponse {
 
     private String id;
@@ -16,4 +18,7 @@ public class CartaoIdResponse {
         this.id = id;
     }
 
+    public Cartao toModel() {
+        return new Cartao(id);
+    }
 }

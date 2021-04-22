@@ -1,5 +1,7 @@
 package br.com.zup.Treinopropostas.Proposta;
 
+import br.com.zup.Treinopropostas.Utils.ApiErrorException;
+import br.com.zup.Treinopropostas.Utils.Resultado;
 import br.com.zup.Treinopropostas.Validations.CPForCNPJ;
 import br.com.zup.Treinopropostas.Validations.ErroPadronizado;
 import org.slf4j.Logger;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Optional;
 
 @RestController
@@ -39,8 +43,13 @@ public class ListarPropostaController {
 
 
         } else {
-            return  ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(ErroPadronizado.repostaErro("Documento " + documento +" nao foi encontrado.", "Não foi localizada nenhuma proposta para o documento informado",logger));
+            Collection<String> mensagens = new ArrayList<>();
+            mensagens.add(Resultado.erro(new ApiErrorException("Não foi localizada nenhuma proposta para o documento informado")).getExcecao().getMessage());
+
+            ErroPadronizado erroPadronizado = new ErroPadronizado(mensagens);
+
+            logger.info("Documento " + documento +" nao foi encontrado.");
+            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(erroPadronizado);
         }
     }
 }
