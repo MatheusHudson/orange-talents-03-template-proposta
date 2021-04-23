@@ -3,6 +3,7 @@ package br.com.zup.Treinopropostas;
 import br.com.zup.Treinopropostas.Proposta.PropostaRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -63,6 +65,24 @@ public class CriarPropostaControllerTestes {
                 .content(json(propostaRequest))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated()).andReturn();
+
+    }
+
+
+    @Test
+    @DisplayName("naoDeveriaCriarPropostaComDocumentosIguais")
+    @Transactional
+    public void test3() throws Exception {
+        PropostaRequest propostaRequest = new PropostaRequest("686.465.700-02", "matheus@teste.com", "matheus", "Rua A", new BigDecimal(7015.44));
+        mockMvc.perform(post("/proposta")
+                .content(json(propostaRequest))
+                .contentType(MediaType.APPLICATION_JSON));
+        MvcResult mvcResult = mockMvc.perform(post("/proposta")
+                .content(json(propostaRequest))
+                .contentType(MediaType.APPLICATION_JSON)).andReturn();
+
+        Integer status = mvcResult.getResponse().getStatus();
+        Assertions.assertTrue(status.equals(422));
     }
 
 

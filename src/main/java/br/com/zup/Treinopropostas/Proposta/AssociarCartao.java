@@ -24,7 +24,7 @@ public class AssociarCartao {
         this.cartaoResource = cartaoResource;
     }
 
-    @Scheduled(fixedDelay = 5000)
+    @Scheduled(initialDelay = 50000,fixedDelay = 5000)
     public void associarCartao() {
         Optional<Proposta> possivelProposta = propostaRepository.getPropostaSemCartaoESemRestricao();
         if (possivelProposta.isPresent()) {

@@ -42,14 +42,14 @@ public class CriarPropostaController {
     @PostMapping("/proposta")
     public ResponseEntity<?> criarProposta(@RequestBody @Valid PropostaRequest request, UriComponentsBuilder uriBuilder) {
 
-        if(!repository.existValue(request.getDocumento(), "documento")){
+        if(!repository.existsByDocumento(request.getDocumento().replaceAll("[^0-9]", ""))){
             Proposta proposta = request.toModel();
 
             repository.save(proposta);
 
             try {
                  solicitacao = solicitacaoAnaliseResource.solicitaAnalise(proposta.enviarInformacoes());
-            }catch (FeignException.FeignClientException e) {
+            }catch (FeignException e) {
                     solicitacao = new Solicitacao(StatusCliente.COM_RESTRICAO);
             }
 
@@ -73,8 +73,4 @@ public class CriarPropostaController {
         }
 
     }
-
-
-
-
 }

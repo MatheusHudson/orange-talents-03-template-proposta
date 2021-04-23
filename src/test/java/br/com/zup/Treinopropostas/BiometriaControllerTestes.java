@@ -60,14 +60,14 @@ public class BiometriaControllerTestes {
         propostaRepository.save(proposta);
         AssociarCartao associarCartao = new AssociarCartao(propostaRepository, cartaoResource);
         associarCartao.associarCartao();
-        BiometriaRequest request = new BiometriaRequest("dfsa");
+        BiometriaRequest request = new BiometriaRequest("dGVzdCBpbnB1dA==");
         mockMvc.perform(post("/cartao/" + proposta.getCartao().getId() + "/biometria")
                 .content(json(request))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated()).andReturn();
     }
 
-  @Test
+    @Test
     @DisplayName("naoDeveriaCriarUmaBiometria")
     @Transactional
     public void test2() throws Exception {
@@ -76,7 +76,7 @@ public class BiometriaControllerTestes {
         propostaRepository.save(proposta);
         AssociarCartao associarCartao = new AssociarCartao(propostaRepository, cartaoResource);
         associarCartao.associarCartao();
-        BiometriaRequest request = new BiometriaRequest("");
+        BiometriaRequest request = new BiometriaRequest("fdsaw  fsafas  safsaf w");
       MvcResult mvcResult = mockMvc.perform(post("/cartao/" + proposta.getCartao().getId() + "/biometria")
               .content(json(request))
               .contentType(MediaType.APPLICATION_JSON))

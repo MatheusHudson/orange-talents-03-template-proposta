@@ -33,7 +33,7 @@ public class BiometriaController {
 
     @PostMapping("/cartao/{id}/biometria")
     public ResponseEntity<?> cadastrarBiometria(@PathVariable String id, @RequestBody  @Valid BiometriaRequest request, UriComponentsBuilder uriBuilder) {
-        if(isBase64(request.getFingerPrint())) {
+        if(request.isBase64()) {
             Optional<Cartao> possivelCartao = cartaoRepository.findById(id);
             if (possivelCartao.isPresent()) {
                 Cartao cartao = possivelCartao.get();
@@ -50,7 +50,6 @@ public class BiometriaController {
                 , "Nao existe um cartao com este id!"));
             }
         } else {
-            System.out.println(isBase64(id));
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(respostaErro("Id "+ id +" não é uma string base64" ,
                             "O fingerPrint está em um formato invalido"));
@@ -66,14 +65,15 @@ public class BiometriaController {
         return new ErroPadronizado(mensagens);
     }
 
-        public Boolean isBase64(String base64) {
-            Base64.Decoder decoder = Base64.getDecoder();
-            try {
-                byte[] decode = Base64.getDecoder().decode(base64.getBytes());
-                return true;
-            } catch(IllegalArgumentException e) {
-               return  false;
-            }
+    public Boolean isBase64(String base64) {
+        Base64.Decoder decoder = Base64.getDecoder();
+        try {
+            byte[] decode = Base64.getDecoder().decode(base64.getBytes());
+            return true;
+        } catch(IllegalArgumentException e) {
+            return  false;
         }
+    }
+
 
 }
