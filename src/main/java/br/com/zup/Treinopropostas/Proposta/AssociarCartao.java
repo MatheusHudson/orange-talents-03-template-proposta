@@ -1,7 +1,7 @@
 package br.com.zup.Treinopropostas.Proposta;
 
 import br.com.zup.Treinopropostas.Cartao.Cartao;
-import br.com.zup.Treinopropostas.Proposta.Feign.CartaoResource;
+import br.com.zup.Treinopropostas.Feign.CartaoResource;
 import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +24,7 @@ public class AssociarCartao {
         this.cartaoResource = cartaoResource;
     }
 
-    @Scheduled(initialDelay = 50000,fixedDelay = 5000)
+    @Scheduled(initialDelay = 10000,fixedDelay = 5000)
     public void associarCartao() {
         Optional<Proposta> possivelProposta = propostaRepository.getPropostaSemCartaoESemRestricao();
         if (possivelProposta.isPresent()) {

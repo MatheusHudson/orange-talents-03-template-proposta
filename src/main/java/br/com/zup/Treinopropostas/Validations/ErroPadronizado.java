@@ -20,13 +20,6 @@ public class ErroPadronizado {
         return mensagens;
     }
 
-    public static ErroPadronizado repostaErro(String log, String mensagemErro, Logger logger) {
-        Collection<String> mensagens = new ArrayList<>();
-        mensagens.add(Resultado.erro(new ApiErrorException(mensagemErro)).getExcecao().getMessage());
-
-        logger.info(log);
-        return new ErroPadronizado(mensagens);
-    }
 
 
 }

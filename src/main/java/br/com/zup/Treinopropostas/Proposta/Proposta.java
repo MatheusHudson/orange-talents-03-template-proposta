@@ -49,6 +49,7 @@ public class Proposta {
         this.nome = nome;
         this.endereco = endereco;
         this.salario = salario;
+        this.status = StatusCliente.NAO_VERIFICADO;
     }
 
     public Long getId() {
@@ -72,7 +73,7 @@ public class Proposta {
     }
 
     public void atualizaEntidade(Solicitacao solicitacao) {
-        status = solicitacao.getResultadoSolicitacao();
+        status =  solicitacao.getResultadoSolicitacao();
     }
 
     public void atualizaEntidade(Cartao cartao) {
@@ -82,4 +83,6 @@ public class Proposta {
     public PropostaResponse toResponse() {
         return new PropostaResponse(documento, email, nome, endereco, salario, status, cartao);
     }
+
+
 }

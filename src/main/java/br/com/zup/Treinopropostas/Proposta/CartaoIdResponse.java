@@ -11,6 +11,8 @@ public class CartaoIdResponse {
 
     }
 
+
+
     public String getId() {
         return id;
     }

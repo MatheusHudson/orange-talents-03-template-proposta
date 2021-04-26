@@ -68,16 +68,11 @@ public class ListarPropostaControllerTestes {
         Assertions.assertTrue(response.getCartao() != null);
 
 
-
     }
 
 
     public String json(PropostaRequest request) throws JsonProcessingException {
         return jsonMapper.writeValueAsString(request);
     }
-  public String json(PropostaResponse response) throws JsonProcessingException {
-        return jsonMapper.writeValueAsString(response);
-    }
-
 
 }

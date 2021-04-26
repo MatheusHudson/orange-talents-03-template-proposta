@@ -1,4 +1,4 @@
-package br.com.zup.Treinopropostas.Proposta.Feign;
+package br.com.zup.Treinopropostas.Feign;
 
 
 import br.com.zup.Treinopropostas.Proposta.Solicitacao;

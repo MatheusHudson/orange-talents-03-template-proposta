@@ -2,13 +2,15 @@ package br.com.zup.Treinopropostas;
 
 import br.com.zup.Treinopropostas.Proposta.*;
 import br.com.zup.Treinopropostas.Proposta.Enum.StatusCliente;
-import br.com.zup.Treinopropostas.Proposta.Feign.CartaoResource;
+import br.com.zup.Treinopropostas.Feign.CartaoResource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
@@ -25,13 +27,15 @@ public class AssociarCartaoTeste {
     @Autowired
     private PropostaRepository propostaRepository;
 
-    @Autowired
+    @MockBean
     private CartaoResource cartaoResource;
 
     @Test
     @DisplayName("deveriaRetornarTrue")
     @Transactional
     public void test1()  {
+        CartaoIdResponse cartaoIdResponse= new CartaoIdResponse("456-4846-4654-456");
+        Mockito.when(cartaoResource.getCartao(Mockito.any())).thenReturn(cartaoIdResponse);
         Proposta proposta = new Proposta("686.465.700-02", "matheus@teste.com", "matheus", "Rua A", new BigDecimal(7015.44));
         proposta.atualizaEntidade(new Solicitacao(StatusCliente.SEM_RESTRICAO));
         propostaRepository.save(proposta);
