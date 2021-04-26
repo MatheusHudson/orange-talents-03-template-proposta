@@ -4,6 +4,7 @@ import br.com.zup.Treinopropostas.Utils.ApiErrorException;
 import br.com.zup.Treinopropostas.Utils.Resultado;
 import br.com.zup.Treinopropostas.Validations.CPForCNPJ;
 import br.com.zup.Treinopropostas.Validations.ErroPadronizado;
+import io.micrometer.core.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,7 @@ public class ListarPropostaController {
     }
 
     @GetMapping("/proposta/{documento}")
+    @Timed(extraTags = {"emissora", "mastercad" , "banco", "itau"}, value = "consultar_proposta")
     public ResponseEntity<?> obterProposta(@PathVariable @Valid @CPForCNPJ String documento) {
 
         Optional<Proposta> possivelProposta = propostaRepository.findByDocumento(documento.replaceAll("[^0-9]", ""));

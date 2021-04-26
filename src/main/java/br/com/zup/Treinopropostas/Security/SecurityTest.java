@@ -17,6 +17,7 @@ public class SecurityTest extends WebSecurityConfigurerAdapter {
         http.authorizeRequests(authorizeRequests ->
                 authorizeRequests
                         .antMatchers(HttpMethod.POST, "/proposta").hasAuthority("SCOPE_admin")
+                        .antMatchers(HttpMethod.GET, "/actuator/prometheus").hasRole("ANONYMOUS")
                         .anyRequest().authenticated()
         ).csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);

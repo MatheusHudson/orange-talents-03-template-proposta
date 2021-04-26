@@ -1,5 +1,6 @@
 package br.com.zup.Treinopropostas.Proposta;
 
+import br.com.zup.Treinopropostas.Meters.Metricas;
 import br.com.zup.Treinopropostas.Proposta.Enum.StatusCliente;
 import br.com.zup.Treinopropostas.Feign.SolicitacaoAnaliseResource;
 import br.com.zup.Treinopropostas.Utils.ApiErrorException;
@@ -31,8 +32,11 @@ public class CriarPropostaController {
 
     private Solicitacao solicitacao;
 
-    public CriarPropostaController(PropostaRepository repository, SolicitacaoAnaliseResource solicitacaoAnaliseResource) {
+    private final Metricas metricas;
+
+    public CriarPropostaController(PropostaRepository repository, Metricas metricas, SolicitacaoAnaliseResource solicitacaoAnaliseResource) {
         this.repository = repository;
+        this.metricas = metricas;
         this.solicitacaoAnaliseResource = solicitacaoAnaliseResource;
     }
 
@@ -45,6 +49,7 @@ public class CriarPropostaController {
         if(!repository.existsByDocumento(request.getDocumento().replaceAll("[^0-9]", ""))){
             Proposta proposta = request.toModel();
             repository.save(proposta);
+            metricas.meuContador();
 
             try {
                  solicitacao = solicitacaoAnaliseResource.solicitaAnalise(proposta.enviarInformacoes());

@@ -4,37 +4,37 @@ networks:
     driver: bridge
 
 services:
-#  spring-proposta:
-#    container_name: propostas
-#    environment:
-#      SPRING_BD_HOST: mysql
-#      SPRING_BANCO_NOME: propostas
-#      SPRING_USER: root
-#      SPRING_PASSWORD: root
-#      CARTAO_RESOURCE_URL:  http://contas:8888
-#      SOLICITACAO_ANALISE: http://analise:9999
-#      SPRING_PROFILE: test
-#      KEY_CLOAK_URL: keycloak:8080
-#      SECURITY_LOG: TRACE
-#
-#    build: .
-#    ports:
-#      - "8080:8080"
-#    networks:
-#      test-network:
-#    depends_on:
-#      - mysql
-#      - keycloak
-#
-#  mysql:
-#    image: mysql
-#    container_name: mysql
-#    environment:
-#      MYSQL_ROOT_PASSWORD: root
-#    ports:
-#    - "3306:3306"
-#    networks:
-#      test-network:
+  spring-proposta:
+    container_name: propostas
+    environment:
+      SPRING_BD_HOST: mysql
+      SPRING_BANCO_NOME: propostas
+      SPRING_USER: root
+      SPRING_PASSWORD: root
+      CARTAO_RESOURCE_URL:  http://contas:8888
+      SOLICITACAO_ANALISE: http://analise:9999
+      SPRING_PROFILE: test
+      KEY_CLOAK_URL: keycloak:8080
+      SECURITY_LOG: TRACE
+
+    build: .
+    ports:
+      - "8080:8080"
+    networks:
+      test-network:
+    depends_on:
+      - mysql
+      - keycloak
+
+  mysql:
+    image: mysql
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+    - "3306:3306"
+    networks:
+      test-network:
 
   zookeeper:
     image: "confluentinc/cp-zookeeper:5.2.1"
@@ -165,8 +165,12 @@ services:
 
   prometheus:
     image: prom/prometheus
+    container_name: prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yaml"
     volumes:
-      - prometheus-volume:/etc/prometheus/
+      - "./src/main/resources/prometheus.yaml:/etc/prometheus/prometheus.yaml"
+#      - prometheus-volume:/etc/prometheus/
     networks:
       test-network:
     ports:
