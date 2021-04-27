@@ -28,13 +28,16 @@ public class AvisoViagemResponse {
     @ManyToOne
     private String cartao;
 
-    public AvisoViagemResponse(String destinoViagem, LocalDate dataTerminoViagem, LocalDateTime instanteCriacao, String ipRequisicao, String userAgentRequisicao, Cartao cartao) {
+    private String status;
+
+    public AvisoViagemResponse(String destinoViagem, LocalDate dataTerminoViagem, LocalDateTime instanteCriacao, String ipRequisicao, String userAgentRequisicao, Cartao cartao, String status) {
         this.destinoViagem = destinoViagem;
         this.dataTerminoViagem = dataTerminoViagem;
         this.instanteCriacao = instanteCriacao;
         this.ipRequisicao = ipRequisicao;
         this.userAgentRequisicao = userAgentRequisicao;
         this.cartao = cartao.getId();
+        this.status = status;
     }
 
     public String getDestinoViagem() {
@@ -59,5 +62,9 @@ public class AvisoViagemResponse {
 
     public String getCartao() {
         return cartao;
+    }
+
+    public String getStatus() {
+        return status;
     }
 }

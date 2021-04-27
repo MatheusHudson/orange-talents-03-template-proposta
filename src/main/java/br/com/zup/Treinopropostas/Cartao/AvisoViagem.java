@@ -49,7 +49,7 @@ public class AvisoViagem {
         return id;
     }
 
-    public AvisoViagemResponse toResponse() {
-        return new AvisoViagemResponse(destinoViagem,dataTerminoViagem,instanteCriacao,ipRequisicao,userAgentRequisicao,cartao);
+    public AvisoViagemResponse toResponse(String status) {
+        return new AvisoViagemResponse(destinoViagem,dataTerminoViagem,instanteCriacao,ipRequisicao,userAgentRequisicao,cartao, status );
     }
 }

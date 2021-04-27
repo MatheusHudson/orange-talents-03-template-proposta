@@ -1,5 +1,6 @@
 package br.com.zup.Treinopropostas.Feign;
 
+import br.com.zup.Treinopropostas.Cartao.AvisoFeignResult;
 import br.com.zup.Treinopropostas.Cartao.BloqueioFeignResult;
 import br.com.zup.Treinopropostas.Proposta.CartaoIdResponse;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -16,5 +17,8 @@ public interface CartaoResource {
 
         @RequestMapping(method = RequestMethod.POST, value = "/api/cartoes/{id}/bloqueios", consumes = "application/json")
         BloqueioFeignResult bloquearCartao(@PathVariable("id") String id,Map<String,String> request);
+
+        @RequestMapping(method = RequestMethod.POST, value = "/api/cartoes/{id}/avisos", consumes = "application/json")
+        AvisoFeignResult avisoViagem(@PathVariable("id") String id, Map<String, String> request);
 }
 

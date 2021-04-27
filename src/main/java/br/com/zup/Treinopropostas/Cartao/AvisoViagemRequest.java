@@ -25,4 +25,12 @@ public class AvisoViagemRequest {
     public LocalDate getDataTerminoViagem() {
         return dataTerminoViagem;
     }
+
+    @Override
+    public String toString() {
+        return "AvisoViagemRequest{" +
+                "destinoViagem='" + destinoViagem + '\'' +
+                ", dataTerminoViagem=" + dataTerminoViagem +
+                '}';
+    }
 }
