@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.validation.ConstraintViolationException;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -37,14 +38,27 @@ public class ValidationErrorHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
     public ErroPadronizado handlerValidationConstraintViolationException(ConstraintViolationException e) {
-        Collection<String> mensagens = new ArrayList<>();
-        mensagens.add(e.getMessage().substring(25));
-        ErroPadronizado erroPadronizado = new ErroPadronizado(mensagens);
-        return erroPadronizado;
+
+        return erroPadronizado(e.getMessage().substring(25));
+
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(DateTimeParseException.class)
+    public ErroPadronizado handlerValidationDateTimeParseException(DateTimeParseException e) {
+        return  erroPadronizado("Inserir a data no formato yyyy/MM/dd !");
+    }
+
 
 
     private String getErrorMessage(ObjectError error) {
         return messageSource.getMessage(error, LocaleContextHolder.getLocale());
+    }
+
+    private ErroPadronizado erroPadronizado(String mensagem) {
+        Collection<String> mensagens = new ArrayList<>();
+        mensagens.add(mensagem);
+        ErroPadronizado erroPadronizado = new ErroPadronizado(mensagens);
+        return erroPadronizado;
     }
 }

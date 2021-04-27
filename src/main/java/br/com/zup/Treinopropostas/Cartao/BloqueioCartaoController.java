@@ -46,8 +46,8 @@ public class BloqueioCartaoController {
 
         Optional<Cartao> possivelCartao = cartaoRepository.findById(id);
         if (possivelCartao.isPresent()) {
-            if (!cartaoRepository.existsByBloqueioStatus(SolicitacaoStatusBloqueio.BLOQUEADO)) {
-                Cartao cartao = possivelCartao.get();
+            Cartao cartao = possivelCartao.get();
+            if (!cartaoRepository.existsByBloqueioStatusAndBloqueioCartao(SolicitacaoStatusBloqueio.BLOQUEADO, cartao) && !cartaoRepository.existsById(cartao.getId())) {
                 BloqueioFeignResult bloqueioFeignResult;
                 try {
                     bloqueioFeignResult = cartaoResource.bloquearCartao(id, Map.of("sistemaResponsavel", "Propostas"));

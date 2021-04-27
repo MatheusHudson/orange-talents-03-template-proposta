@@ -16,6 +16,9 @@ public class Cartao {
     @OneToOne(cascade = CascadeType.MERGE, mappedBy = "cartao")
     private Bloqueio bloqueio;
 
+    @OneToMany(mappedBy = "cartao", cascade = CascadeType.MERGE)
+    private Set<AvisoViagem> avisoViagem = new HashSet<>();
+
     @Deprecated
     public Cartao() {
     }
@@ -41,4 +44,8 @@ public class Cartao {
     public void atualizaCartao(Bloqueio bloqueio) {
         this.bloqueio = bloqueio;
     }
+    public void atualizaCartao(AvisoViagem viagem) {
+        avisoViagem.add(viagem);
+    }
+
 }
