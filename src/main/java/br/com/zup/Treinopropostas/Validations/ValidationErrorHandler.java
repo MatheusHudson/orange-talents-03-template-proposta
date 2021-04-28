@@ -1,8 +1,10 @@
 package br.com.zup.Treinopropostas.Validations;
 
+import br.com.zup.Treinopropostas.Utils.ApiErrorException;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -47,6 +49,13 @@ public class ValidationErrorHandler {
     @ExceptionHandler(DateTimeParseException.class)
     public ErroPadronizado handlerValidationDateTimeParseException(DateTimeParseException e) {
         return  erroPadronizado("Inserir a data no formato yyyy/MM/dd !");
+    }
+
+
+    @ExceptionHandler(ApiErrorException.class)
+    public ResponseEntity<ErroPadronizado> handlerValidationApiErrorException(ApiErrorException e) {
+
+        return ResponseEntity.status(e.getStatus()).body(erroPadronizado(e.getMessage()));
     }
 
 

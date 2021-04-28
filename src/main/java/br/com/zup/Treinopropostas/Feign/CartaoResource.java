@@ -20,5 +20,10 @@ public interface CartaoResource {
 
         @RequestMapping(method = RequestMethod.POST, value = "/api/cartoes/{id}/avisos", consumes = "application/json")
         AvisoFeignResult avisoViagem(@PathVariable("id") String id, Map<String, String> request);
+
+        @RequestMapping(method = RequestMethod.POST, value = "/api/cartoes/{id}/carteiras", consumes = "application/json")
+        CarteiraFeignResult associarCarteira(@PathVariable("id") String id, Map<String, String> request);
+
+
 }
 

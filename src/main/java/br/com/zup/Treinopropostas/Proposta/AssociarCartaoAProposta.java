@@ -11,15 +11,15 @@ import java.util.Map;
 import java.util.Optional;
 
 @Component
-public class AssociarCartao {
+public class AssociarCartaoAProposta {
 
     private final PropostaRepository propostaRepository;
 
-    private final Logger logger = LoggerFactory.getLogger(AssociarCartao.class);
+    private final Logger logger = LoggerFactory.getLogger(AssociarCartaoAProposta.class);
 
     private CartaoResource cartaoResource;
 
-    public AssociarCartao(PropostaRepository propostaRepository, CartaoResource cartaoResource) {
+    public AssociarCartaoAProposta(PropostaRepository propostaRepository, CartaoResource cartaoResource) {
         this.propostaRepository = propostaRepository;
         this.cartaoResource = cartaoResource;
     }

@@ -1,5 +1,7 @@
 package br.com.zup.Treinopropostas.Cartao;
 
+import br.com.zup.Treinopropostas.Carteira.CarteiraPaypal;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,6 +20,9 @@ public class Cartao {
 
     @OneToMany(mappedBy = "cartao", cascade = CascadeType.MERGE)
     private Set<AvisoViagem> avisoViagem = new HashSet<>();
+
+    @ManyToOne(cascade = CascadeType.MERGE)
+    private CarteiraPaypal carteiraPaypal;
 
     @Deprecated
     public Cartao() {
@@ -44,8 +49,12 @@ public class Cartao {
     public void atualizaCartao(Bloqueio bloqueio) {
         this.bloqueio = bloqueio;
     }
+
     public void atualizaCartao(AvisoViagem viagem) {
         avisoViagem.add(viagem);
+    }
+    public void atualizaCartao(CarteiraPaypal carteiraPaypal) {
+       this.carteiraPaypal = carteiraPaypal;
     }
 
 }

@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @SpringBootTest
 @AutoConfigureDataJpa
-public class AssociarCartaoTeste {
+public class AssociarCartaoAPropostaTeste {
 
 
     @Autowired
@@ -40,7 +40,7 @@ public class AssociarCartaoTeste {
         proposta.atualizaEntidade(new Solicitacao(StatusCliente.SEM_RESTRICAO));
         propostaRepository.save(proposta);
         Optional<Proposta> propostaSemCartaoESemRestricao = propostaRepository.getPropostaSemCartaoESemRestricao();
-        AssociarCartao associarCartao = new AssociarCartao(propostaRepository, cartaoResource);
+        AssociarCartaoAProposta associarCartao = new AssociarCartaoAProposta(propostaRepository, cartaoResource);
         associarCartao.associarCartao();
         Assertions.assertTrue(propostaSemCartaoESemRestricao.isPresent());
         Assertions.assertTrue(proposta.getCartao() != null);

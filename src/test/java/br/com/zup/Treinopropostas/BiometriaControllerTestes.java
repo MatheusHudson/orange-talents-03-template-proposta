@@ -49,7 +49,7 @@ public class BiometriaControllerTestes {
         Proposta proposta = new Proposta("686.465.700-02", "matheus@teste.com", "matheus", "Rua A", new BigDecimal(7015.44));
         proposta.atualizaEntidade(new Solicitacao(StatusCliente.SEM_RESTRICAO));
         propostaRepository.save(proposta);
-        AssociarCartao associarCartao = new AssociarCartao(propostaRepository, cartaoResource);
+        AssociarCartaoAProposta associarCartao = new AssociarCartaoAProposta(propostaRepository, cartaoResource);
         associarCartao.associarCartao();
         BiometriaRequest request = new BiometriaRequest("dGVzdCBpbnB1dA==");
         mockMvc.perform(post("/cartao/" + proposta.getCartao().getId() + "/biometria")
@@ -65,7 +65,7 @@ public class BiometriaControllerTestes {
         Proposta proposta = new Proposta("686.465.700-02", "matheus@teste.com", "matheus", "Rua A", new BigDecimal(7015.44));
         proposta.atualizaEntidade(new Solicitacao(StatusCliente.SEM_RESTRICAO));
         propostaRepository.save(proposta);
-        AssociarCartao associarCartao = new AssociarCartao(propostaRepository, cartaoResource);
+        AssociarCartaoAProposta associarCartao = new AssociarCartaoAProposta(propostaRepository, cartaoResource);
         associarCartao.associarCartao();
         BiometriaRequest request = new BiometriaRequest("fdsaw  fsafas  safsaf w");
       MvcResult mvcResult = mockMvc.perform(post("/cartao/" + proposta.getCartao().getId() + "/biometria")

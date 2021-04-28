@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.ConnectException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -52,27 +53,23 @@ public class AvisoViagemController {
                 cartao.atualizaCartao(avisoViagem);
                 cartaoRepository.save(cartao);
                 metricas.meuContador();
+                AvisoViagemResponse response = avisoViagem.toResponse(avisoFeignResult.getResultado());
 
-            }catch (FeignException e) {
-                 avisoFeignResult = new AvisoFeignResult("FALHA");
-            }
+                URI uri = uriComponentsBuilder.path("/cartao/{idCartao}/aviso-viagem/{id}")
+                        .buildAndExpand(cartao.getId(),avisoViagem.getId()).toUri();
+                logger.info("Aviso de viagem gerado para o cartão com o id= {}", id);
 
-            AvisoViagemResponse response = avisoViagem.toResponse(avisoFeignResult.getResultado());
-
-            URI uri = uriComponentsBuilder.path("/cartao/{idCartao}/aviso-viagem/{id}")
-                    .buildAndExpand(cartao.getId(),avisoViagem.getId()).toUri();
-            logger.info("Aviso de viagem gerado para o cartão com o id= {}", id);
-            if(response.getStatus() != "FALHA")
                 return ResponseEntity.created(uri).body(Resultado.sucesso(response).getSucesso());
-            else {
+
+            }catch (FeignException.FeignClientException e) {
                 Collection<String> mensagens = new ArrayList<>();
                 mensagens.add(Resultado.erro(new ApiErrorException(
-                        "Não foi possivel criar sua solicitação de viagem devido a quebra de regra de negocio ou erro do serviço externo")).getExcecao().getMessage());
+                        "Não foi possivel criar sua solicitação de viagem devido a quebra de regra de negocio")).getExcecao().getMessage());
 
                 ErroPadronizado erroPadronizado = new ErroPadronizado(mensagens);
                 logger.info("O feign retornou uma exception para o id = {} e  requisição {}  ", id, request);
 
-                return  ResponseEntity.status(HttpStatus.OK)
+                return  ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
                         .body(erroPadronizado);
             }
 

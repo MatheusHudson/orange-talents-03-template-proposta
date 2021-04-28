@@ -12,4 +12,6 @@ public interface CartaoRepository extends CrudRepository<Cartao, String> {
     boolean existsById(String cartao);
     Boolean existsByBloqueioStatusAndBloqueioCartao(SolicitacaoStatusBloqueio statusBloqueio, Cartao cartao);
 
+    Boolean existsByCarteiraPaypalSetCartao(Cartao cartao);
+
 }
