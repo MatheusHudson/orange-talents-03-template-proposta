@@ -15,13 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
-
-
-
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collection;
 
 @RestController
 public class CriarPropostaController {
@@ -67,12 +62,8 @@ public class CriarPropostaController {
             return  ResponseEntity.created(uri).body(Resultado.sucesso(response).getSucesso());
 
         } else {
-            Collection<String> mensagens = new ArrayList<>();
-            mensagens.add(Resultado.erro(new ApiErrorException("Documento já existente")).getExcecao().getMessage());
-
-            ErroPadronizado erroPadronizado = new ErroPadronizado(mensagens);
+            ErroPadronizado erroPadronizado = new ErroPadronizado(Resultado.erro(new ApiErrorException("Documento já existente")).getExcecao().getMessage());
             logger.info("Erro 422 ao realizar validação");
-
             return  ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
                     .body(erroPadronizado);
         }

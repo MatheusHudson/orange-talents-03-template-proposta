@@ -2,6 +2,7 @@ package br.com.zup.Treinopropostas.Proposta;
 
 import br.com.zup.Treinopropostas.Cartao.Cartao;
 import br.com.zup.Treinopropostas.Proposta.Enum.StatusCliente;
+import org.hibernate.validator.constraints.CreditCardNumber;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -21,6 +22,7 @@ public class Proposta {
     private String documento;
     @Email
     @NotBlank
+
     @Column(nullable = false)
     private String email;
     @NotBlank

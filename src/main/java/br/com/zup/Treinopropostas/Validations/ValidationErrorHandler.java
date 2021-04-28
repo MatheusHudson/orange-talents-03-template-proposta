@@ -41,7 +41,7 @@ public class ValidationErrorHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     public ErroPadronizado handlerValidationConstraintViolationException(ConstraintViolationException e) {
 
-        return erroPadronizado(e.getMessage().substring(25));
+        return erroPadronizado(e.getMessage());
 
     }
 
@@ -65,9 +65,7 @@ public class ValidationErrorHandler {
     }
 
     private ErroPadronizado erroPadronizado(String mensagem) {
-        Collection<String> mensagens = new ArrayList<>();
-        mensagens.add(mensagem);
-        ErroPadronizado erroPadronizado = new ErroPadronizado(mensagens);
+        ErroPadronizado erroPadronizado = new ErroPadronizado(mensagem);
         return erroPadronizado;
     }
 }

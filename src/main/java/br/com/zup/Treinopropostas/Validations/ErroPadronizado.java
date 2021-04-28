@@ -10,10 +10,10 @@ import java.util.Collection;
 
 public class ErroPadronizado {
 
-    private Collection<String> mensagens;
+    private Collection<String> mensagens =  new ArrayList<>();
 
-    public ErroPadronizado(Collection<String> mensagens) {
-        this.mensagens = mensagens;
+    public ErroPadronizado(String mensagem) {
+        mensagens.add(mensagem);
     }
 
     public Collection<String> getMensagens() {

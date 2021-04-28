@@ -2,7 +2,7 @@ package br.com.zup.Treinopropostas.Carteira;
 
 import br.com.zup.Treinopropostas.Carteira.Enum.StatusCartao;
 
-public class CarteiraPaypalResponse {
+public class CarteiraResponse {
 
     private String id;
 
@@ -10,7 +10,7 @@ public class CarteiraPaypalResponse {
 
     private StatusCartao statusCartao;
 
-    public CarteiraPaypalResponse(String id, String email, StatusCartao statusCartao) {
+    public CarteiraResponse(String id, String email, StatusCartao statusCartao) {
         this.id = id;
         this.email = email;
         this.statusCartao = statusCartao;

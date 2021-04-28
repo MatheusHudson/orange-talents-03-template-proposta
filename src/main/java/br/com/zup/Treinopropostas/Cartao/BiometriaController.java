@@ -13,12 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Collection;
 import java.util.Optional;
 
 @RestController
@@ -44,26 +41,19 @@ public class BiometriaController {
                 URI uri = uriBuilder.path("/biometria/{id}").buildAndExpand(biometria.getId()).toUri();
                 return ResponseEntity.created(uri).body(Resultado.sucesso(biometriaResponse).getSucesso());
             } else {
-
+                logger.info("Cartao com o id " + id + "nao existe");
+                ErroPadronizado erroPadronizado = new ErroPadronizado(Resultado.erro(new ApiErrorException("Nao existe um cartao com este id!")).getExcecao().getMessage());
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).
-                        body(respostaErro("Cartao com o id " + id + "nao existe"
-                , "Nao existe um cartao com este id!"));
+                        body(erroPadronizado);
             }
         } else {
+            logger.info("Id "+ id +" não é uma string base64" );
+            ErroPadronizado erroPadronizado = new ErroPadronizado(Resultado.erro(new ApiErrorException("O fingerPrint está em um formato invalido")).getExcecao().getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(respostaErro("Id "+ id +" não é uma string base64" ,
-                            "O fingerPrint está em um formato invalido"));
+                    .body(erroPadronizado);
         }
     }
 
-
-
-        public ErroPadronizado respostaErro(String log, String mensagemErro) {
-        Collection<String> mensagens = new ArrayList<>();
-        mensagens.add(Resultado.erro(new ApiErrorException(mensagemErro)).getExcecao().getMessage());
-        logger.info(log);
-        return new ErroPadronizado(mensagens);
-    }
 
     public Boolean isBase64(String base64) {
         Base64.Decoder decoder = Base64.getDecoder();

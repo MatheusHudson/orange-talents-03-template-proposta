@@ -6,6 +6,7 @@ import br.com.zup.Treinopropostas.Utils.ApiErrorException;
 import br.com.zup.Treinopropostas.Utils.Resultado;
 import br.com.zup.Treinopropostas.Validations.ErroPadronizado;
 import feign.FeignException;
+import org.hibernate.validator.constraints.CreditCardNumber;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -14,12 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 
@@ -41,7 +39,7 @@ public class BloqueioCartaoController {
 
 
     @PostMapping("/cartao/{id}/bloqueio")
-    public ResponseEntity<?> bloquearCartao(@PathVariable @NotBlank @Valid String id,
+    public ResponseEntity<?> bloquearCartao(@PathVariable @NotBlank @Valid  @CreditCardNumber String id,
                                             @RequestHeader HttpHeaders headers, UriComponentsBuilder uriBuilder) {
 
         Optional<Cartao> possivelCartao = cartaoRepository.findById(id);
@@ -66,22 +64,17 @@ public class BloqueioCartaoController {
                     return ResponseEntity.created(uri).body(Resultado.sucesso(response).getSucesso());
 
                 } else{
-                    Collection<String> mensagens = new ArrayList<>();
-                    mensagens.add(Resultado.erro(new ApiErrorException("Não é possivel solicitar bloqueio para um cartão já bloqueado")).getExcecao().getMessage());
 
-                    ErroPadronizado erroPadronizado = new ErroPadronizado(mensagens);
+
+                    ErroPadronizado erroPadronizado = new ErroPadronizado(Resultado.erro(new ApiErrorException("Não é possivel solicitar bloqueio para um cartão já bloqueado")).getExcecao().getMessage());
                     logger.info("Quebra de regra de negócio pois o cartão com o id: ={} já está bloqueado", id);
 
                     return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
                             .body(erroPadronizado);
                 }
             } else {
-                Collection<String> mensagens = new ArrayList<>();
-                mensagens.add(Resultado.erro(new ApiErrorException("Não foi encontrado um cartão com este id!")).getExcecao().getMessage());
-
-                ErroPadronizado erroPadronizado = new ErroPadronizado(mensagens);
+                ErroPadronizado erroPadronizado = new ErroPadronizado(Resultado.erro(new ApiErrorException("Não foi encontrado um cartão com este id!")).getExcecao().getMessage());
                 logger.info("Nao foi encontrado o id: ={}.", id);
-
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(erroPadronizado);
             }

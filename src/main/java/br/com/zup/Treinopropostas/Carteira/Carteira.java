@@ -1,6 +1,7 @@
 package br.com.zup.Treinopropostas.Carteira;
 
 import br.com.zup.Treinopropostas.Cartao.Cartao;
+import br.com.zup.Treinopropostas.Carteira.Enum.CarteirasTipo;
 import br.com.zup.Treinopropostas.Carteira.Enum.StatusCartao;
 
 import javax.persistence.*;
@@ -10,7 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class CarteiraPaypal {
+public class Carteira {
 
     @Id
     @NotBlank
@@ -23,14 +24,18 @@ public class CarteiraPaypal {
     @Enumerated(EnumType.STRING)
     private StatusCartao statusCartao;
 
+    @Enumerated(EnumType.STRING)
+    private CarteirasTipo tipoCarteira;
+
     @Deprecated
-    public CarteiraPaypal() {}
+    public Carteira() {}
 
 
-    public CarteiraPaypal(String id, String email, StatusCartao statusCartao) {
+    public Carteira(String id, String email, StatusCartao statusCartao, CarteirasTipo carteira) {
         this.id = id;
         this.email = email;
         this.statusCartao = statusCartao;
+        this.tipoCarteira = carteira;
     }
 
     @OneToMany
@@ -45,7 +50,7 @@ public class CarteiraPaypal {
         setCartao.add(cartao);
     }
 
-    public CarteiraPaypalResponse toRespone() {
-        return  new CarteiraPaypalResponse(id, email, statusCartao);
+    public CarteiraResponse toRespone() {
+        return  new CarteiraResponse(id, email, statusCartao);
     }
 }

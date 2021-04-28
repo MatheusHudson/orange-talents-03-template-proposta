@@ -1,7 +1,7 @@
 package br.com.zup.Treinopropostas.Validations;
 
 import br.com.zup.Treinopropostas.Carteira.CarteiraRequest;
-import br.com.zup.Treinopropostas.Carteira.Enum.Carteiras;
+import br.com.zup.Treinopropostas.Carteira.Enum.CarteirasTipo;
 import br.com.zup.Treinopropostas.Utils.ApiErrorException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -21,9 +21,9 @@ public class CarteiraRequestValidator implements Validator {
             return;
         CarteiraRequest request = (CarteiraRequest) o;
         try{
-            Carteiras.valueOf(request.getCarteira());
+            CarteirasTipo.valueOf(request.getCarteira());
         }catch (IllegalArgumentException e) {
-            throw new ApiErrorException(HttpStatus.BAD_REQUEST, "Por favor inserir uma carteira valida ! " + Carteiras.Paypal.listarAtributos());
+            throw new ApiErrorException(HttpStatus.BAD_REQUEST, "Por favor inserir uma carteira valida ! " + CarteirasTipo.Paypal.listarAtributos());
         }
     }
 }
