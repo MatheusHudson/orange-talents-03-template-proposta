@@ -34,3 +34,4 @@ public class Resultado<E extends Exception,S> {
         return resultado;
     }
 }
+

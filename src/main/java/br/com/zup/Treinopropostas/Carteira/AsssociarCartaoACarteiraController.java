@@ -5,7 +5,7 @@ import br.com.zup.Treinopropostas.Cartao.CartaoRepository;
 import br.com.zup.Treinopropostas.Carteira.Enum.CarteirasTipo;
 import br.com.zup.Treinopropostas.Carteira.Enum.StatusCartao;
 import br.com.zup.Treinopropostas.Feign.CartaoResource;
-import br.com.zup.Treinopropostas.Feign.CarteiraFeignResult;
+import br.com.zup.Treinopropostas.Cartao.CarteiraFeignResult;
 import br.com.zup.Treinopropostas.Meters.Metricas;
 import br.com.zup.Treinopropostas.Utils.ApiErrorException;
 import br.com.zup.Treinopropostas.Utils.Resultado;

@@ -1,4 +1,4 @@
-package br.com.zup.Treinopropostas.Feign;
+package br.com.zup.Treinopropostas.Cartao;
 
 public class CarteiraFeignResult {
 

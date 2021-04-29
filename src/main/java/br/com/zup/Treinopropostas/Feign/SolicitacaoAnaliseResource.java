@@ -11,4 +11,6 @@ public interface SolicitacaoAnaliseResource {
 
         @RequestMapping(method = RequestMethod.POST, value = "/api/solicitacao", consumes = "application/json")
         Solicitacao solicitaAnalise(Solicitacao solicitacao);
+
 }
+

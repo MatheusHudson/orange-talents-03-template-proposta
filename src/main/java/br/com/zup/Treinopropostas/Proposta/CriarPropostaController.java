@@ -7,6 +7,8 @@ import br.com.zup.Treinopropostas.Utils.ApiErrorException;
 import br.com.zup.Treinopropostas.Validations.ErroPadronizado;
 import br.com.zup.Treinopropostas.Utils.Resultado;
 import feign.FeignException;
+import io.opentracing.Span;
+import io.opentracing.Tracer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -25,23 +27,29 @@ public class CriarPropostaController {
 
     private  PropostaRepository repository;
 
+    private  final SolicitacaoAnaliseResource solicitacaoAnaliseResource;
+
     private Solicitacao solicitacao;
 
     private final Metricas metricas;
 
-    public CriarPropostaController(PropostaRepository repository, Metricas metricas, SolicitacaoAnaliseResource solicitacaoAnaliseResource) {
+    private final Tracer tracer;
+
+    public CriarPropostaController(PropostaRepository repository, Metricas metricas, SolicitacaoAnaliseResource solicitacaoAnaliseResource, Tracer tracer) {
         this.repository = repository;
         this.metricas = metricas;
         this.solicitacaoAnaliseResource = solicitacaoAnaliseResource;
+        this.tracer = tracer;
     }
 
-    private  final SolicitacaoAnaliseResource solicitacaoAnaliseResource;
 
 
     @PostMapping("/proposta")
     public ResponseEntity<?> criarProposta(@RequestBody @Valid PropostaRequest request, UriComponentsBuilder uriBuilder) {
 
         if(!repository.existsByDocumento(request.getDocumento().replaceAll("[^0-9]", ""))){
+
+
             Proposta proposta = request.toModel();
             repository.save(proposta);
             metricas.meuContador();
@@ -56,7 +64,8 @@ public class CriarPropostaController {
             repository.save(proposta);
             PropostaResponse response = proposta.toResponse();
 
-
+            Span span = tracer.activeSpan();
+            span.setTag("propostaId", proposta.getId());
             URI uri = uriBuilder.path("/proposta/{id}").buildAndExpand(proposta.getId()).toUri();
             logger.info("Proposta com id={} com documento={} status ={} ", proposta.getId(), proposta.getDocumento().substring(0,3) + "********", proposta.getStatus());
             return  ResponseEntity.created(uri).body(Resultado.sucesso(response).getSucesso());

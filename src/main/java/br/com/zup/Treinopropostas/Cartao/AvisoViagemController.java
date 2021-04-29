@@ -8,6 +8,9 @@ import br.com.zup.Treinopropostas.Validations.ErroPadronizado;
 import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +37,7 @@ public class AvisoViagemController {
     }
 
     @PostMapping("/cartao/{id}/aviso-viagem")
-        public ResponseEntity<?> criarAvisoDeViagem(@RequestBody @Valid AvisoViagemRequest request, @PathVariable String id,
+    public ResponseEntity<?> criarAvisoDeViagem(@RequestBody @Valid AvisoViagemRequest request, @PathVariable String id,
                                                     UriComponentsBuilder uriComponentsBuilder, @RequestHeader HttpHeaders headers){
 
         Optional<Cartao> possivelCartao = cartaoRepository.findById(id);
