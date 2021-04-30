@@ -27,6 +27,11 @@ public class Carteira {
     @Enumerated(EnumType.STRING)
     private CarteirasTipo tipoCarteira;
 
+
+    @ManyToMany
+    private Set<Cartao> setCartao = new HashSet<>();
+
+
     @Deprecated
     public Carteira() {}
 
@@ -37,9 +42,6 @@ public class Carteira {
         this.statusCartao = statusCartao;
         this.tipoCarteira = carteira;
     }
-
-    @OneToMany
-    private Set<Cartao> setCartao = new HashSet<>();
 
 
     public String getId() {

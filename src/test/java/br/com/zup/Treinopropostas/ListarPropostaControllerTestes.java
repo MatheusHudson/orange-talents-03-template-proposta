@@ -11,6 +11,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -38,6 +39,9 @@ public class ListarPropostaControllerTestes {
     @Autowired
     MockMvc mockMvc;
 
+    @Value("${my.saltSecret}")
+    private String salt;
+
     @Autowired
     private PropostaRepository propostaRepository;
 
@@ -50,7 +54,7 @@ public class ListarPropostaControllerTestes {
     @Transactional
     public void test1() throws Exception {
         PropostaRequest propostaRequest = new PropostaRequest("686.465.700-02", "matheus@teste.com", "matheus", "Rua A", new BigDecimal(7015.44));
-        Proposta proposta = propostaRequest.toModel();
+        Proposta proposta = propostaRequest.toModel(salt);
         proposta.atualizaEntidade(new Solicitacao(StatusCliente.SEM_RESTRICAO));
         propostaRepository.save(proposta);
         PropostaResponse response = proposta.toResponse();
@@ -58,8 +62,7 @@ public class ListarPropostaControllerTestes {
                 .content(json(propostaRequest))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-
-        Assertions.assertTrue(response.getDocumento() != null);
+        
         Assertions.assertTrue(response.getStatus() != null);
         Assertions.assertTrue(response.getEmail() != null);
         Assertions.assertTrue(response.getEndereco() != null);

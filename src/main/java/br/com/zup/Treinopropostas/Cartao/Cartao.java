@@ -21,8 +21,8 @@ public class Cartao {
     @OneToMany(mappedBy = "cartao", cascade = CascadeType.MERGE)
     private Set<AvisoViagem> avisoViagem = new HashSet<>();
 
-    @ManyToOne(cascade = CascadeType.MERGE)
-    private Carteira carteira;
+    @ManyToMany(cascade = CascadeType.MERGE, mappedBy = "setCartao")
+    private Set<Carteira> carteira;
 
     @Deprecated
     public Cartao() {
@@ -54,7 +54,7 @@ public class Cartao {
         avisoViagem.add(viagem);
     }
     public void atualizaCartao(Carteira carteira) {
-       this.carteira = carteira;
+        this.carteira.add(carteira);
     }
 
 }

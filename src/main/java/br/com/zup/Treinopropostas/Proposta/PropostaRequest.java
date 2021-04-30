@@ -3,12 +3,17 @@ package br.com.zup.Treinopropostas.Proposta;
 import br.com.zup.Treinopropostas.Proposta.Enum.StatusCliente;
 import br.com.zup.Treinopropostas.Validations.CPForCNPJ;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.security.crypto.keygen.KeyGenerators;
+import org.springframework.util.DigestUtils;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
+
 
 public class PropostaRequest {
 
@@ -22,10 +27,13 @@ public class PropostaRequest {
     private String email;
     @NotBlank
     private String nome;
+
     @NotBlank
     private String endereco;
 
     private StatusCliente status;
+
+
 
     @Positive
     @NotNull
@@ -59,7 +67,9 @@ public class PropostaRequest {
         return salario;
     }
 
-    public Proposta toModel() {
+    public Proposta toModel(String salt) {
+        this.documento = documento.replaceAll("[^0-9]", "");
+        this.documento = Encryptors.text(documento,salt).encrypt(documento);
         return new Proposta(documento, email, nome, endereco, salario);
     }
 

@@ -56,7 +56,7 @@ public class AsssociarCartaoACarteiraController {
             Cartao cartao = possivelCartao.get();
             if(!cartaoRepository.existsByCarteiraSetCartaoAndCarteiraTipoCarteira(cartao, CarteirasTipo.valueOf(request.getCarteira()))) {
                 try {
-                    CarteiraFeignResult carteiraFeignResult = cartaoResource.associarCarteira(id, Map.of("email", request.getEmail(), "carteira", CarteirasTipo.Paypal.toString()));
+                    CarteiraFeignResult carteiraFeignResult = cartaoResource.associarCarteira(id, Map.of("email", request.getEmail(), "carteira", CarteirasTipo.valueOf(request.getCarteira()).toString()));
                     Carteira carteiraPaypal = new Carteira(carteiraFeignResult.getId(),
                             request.getEmail(), StatusCartao.valueOf(carteiraFeignResult.getResultado()), CarteirasTipo.valueOf(request.getCarteira()));
                     carteiraPaypal.adicionaCartao(cartao);

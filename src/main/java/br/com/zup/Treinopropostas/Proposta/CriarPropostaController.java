@@ -11,6 +11,7 @@ import io.opentracing.Span;
 import io.opentracing.Tracer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +32,9 @@ public class CriarPropostaController {
 
     private Solicitacao solicitacao;
 
+    @Value("${my.saltSecret}")
+    private String salt;
+
     private final Metricas metricas;
 
     private final Tracer tracer;
@@ -50,7 +54,7 @@ public class CriarPropostaController {
         if(!repository.existsByDocumento(request.getDocumento().replaceAll("[^0-9]", ""))){
 
 
-            Proposta proposta = request.toModel();
+            Proposta proposta = request.toModel(salt);
             repository.save(proposta);
             metricas.meuContador();
 

@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 
 public class PropostaResponse {
 
-    private String documento;
+
     @Email
     @NotBlank
     private String email;
@@ -27,8 +27,8 @@ public class PropostaResponse {
 
     private Cartao cartao;
 
-    public PropostaResponse(String documento, String email, String nome, String endereco, BigDecimal salario, StatusCliente status, Cartao cartao) {
-        this.documento = documento;
+    public PropostaResponse(String email, String nome, String endereco, BigDecimal salario, StatusCliente status, Cartao cartao) {
+
         this.email = email;
         this.nome = nome;
         this.endereco = endereco;
@@ -37,9 +37,6 @@ public class PropostaResponse {
         this.cartao = cartao;
     }
 
-    public String getDocumento() {
-        return documento;
-    }
 
     public String getEmail() {
         return email;
